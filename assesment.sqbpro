@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="db.sqlite" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="859"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="progress" custom_title="0" dock_id="1" table="4,8:mainprogress"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000011800ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">SELECT * FROM users;
+
+SELECT email_domain, COUNT(*) AS learner_count
+FROM users
+WHERE email_domain LIKE '%.edu'
+GROUP BY email_domain
+ORDER BY learner_count DESC
+LIMIT 25;
+
+SELECT COUNT(*) AS learners_from_ny
+FROM users
+WHERE email_domain LIKE '%.edu' AND postal LIKE 'NY%';
+
+SELECT COUNT(*) AS mobile_app_users
+FROM users
+WHERE mobile_app IS NOT NULL;
+
+SELECT strftime('%H', sign_up_at) AS sign_up_hour,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_hour
+ORDER BY sign_up_hour;
+
+SELECT strftime('%w', sign_up_at) AS sign_up_day,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_day
+ORDER BY sign_up_day;
+
+SELECT strftime('%m', sign_up_at) AS sign_up_month,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_month
+ORDER BY sign_up_month;
+
+SELECT strftime('%Y', sign_up_at) AS sign_up_year,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_year
+ORDER BY sign_up_year;
+
+SELECT strftime('%w', sign_up_at) AS sign_up_day,
+       strftime('%H', sign_up_at) AS sign_up_hour,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_day, sign_up_hour
+ORDER BY sign_up_day, sign_up_hour;
+
+
+SELECT *
+FROM users
+JOIN progress USING(user_id)
+LIMIT 10;
+
+SELECT email_domain,
+       AVG(learn_cpp) AS cpp_avg,
+       AVG(learn_sql) AS sql_avg,
+       AVG(learn_html) AS html_avg,
+       AVG(learn_javascript) AS js_avg,
+       AVG(learn_java) AS java_avg
+FROM users
+JOIN progress USING(user_id)
+WHERE email_domain LIKE '%.edu'
+GROUP BY email_domain
+ORDER BY email_domain;
+
+SELECT AVG(learn_cpp) AS cpp_avg,
+       AVG(learn_sql) AS sql_avg,
+       AVG(learn_html) AS html_avg,
+       AVG(learn_javascript) AS js_avg,
+       AVG(learn_java) AS java_avg
+FROM users
+JOIN progress USING(user_id)
+WHERE postal LIKE 'NY%';
+
+SELECT AVG(learn_cpp) AS cpp_avg,
+       AVG(learn_sql) AS sql_avg,
+       AVG(learn_html) AS html_avg,
+       AVG(learn_javascript) AS js_avg,
+       AVG(learn_java) AS java_avg
+FROM users
+JOIN progress USING(user_id)
+WHERE postal LIKE 'Chicago%';
+
+
+
+
+
+
+
+
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>

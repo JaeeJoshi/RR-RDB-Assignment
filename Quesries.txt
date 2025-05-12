@@ -1,0 +1,83 @@
+SELECT * FROM users;
+
+SELECT email_domain, COUNT(*) AS learner_count
+FROM users
+WHERE email_domain LIKE '%.edu'
+GROUP BY email_domain
+ORDER BY learner_count DESC
+LIMIT 25;
+
+SELECT COUNT(*) AS learners_from_ny
+FROM users
+WHERE email_domain LIKE '%.edu' AND postal LIKE 'NY%';
+
+SELECT COUNT(*) AS mobile_app_users
+FROM users
+WHERE mobile_app IS NOT NULL;
+
+SELECT strftime('%H', sign_up_at) AS sign_up_hour,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_hour
+ORDER BY sign_up_hour;
+
+SELECT strftime('%w', sign_up_at) AS sign_up_day,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_day
+ORDER BY sign_up_day;
+
+SELECT strftime('%m', sign_up_at) AS sign_up_month,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_month
+ORDER BY sign_up_month;
+
+SELECT strftime('%Y', sign_up_at) AS sign_up_year,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_year
+ORDER BY sign_up_year;
+
+SELECT strftime('%w', sign_up_at) AS sign_up_day,
+       strftime('%H', sign_up_at) AS sign_up_hour,
+       COUNT(*) AS sign_up_count
+FROM users
+GROUP BY sign_up_day, sign_up_hour
+ORDER BY sign_up_day, sign_up_hour;
+
+
+SELECT *
+FROM users
+JOIN progress USING(user_id)
+LIMIT 10;
+
+SELECT email_domain,
+       AVG(learn_cpp) AS cpp_avg,
+       AVG(learn_sql) AS sql_avg,
+       AVG(learn_html) AS html_avg,
+       AVG(learn_javascript) AS js_avg,
+       AVG(learn_java) AS java_avg
+FROM users
+JOIN progress USING(user_id)
+WHERE email_domain LIKE '%.edu'
+GROUP BY email_domain
+ORDER BY email_domain;
+
+SELECT AVG(learn_cpp) AS cpp_avg,
+       AVG(learn_sql) AS sql_avg,
+       AVG(learn_html) AS html_avg,
+       AVG(learn_javascript) AS js_avg,
+       AVG(learn_java) AS java_avg
+FROM users
+JOIN progress USING(user_id)
+WHERE postal LIKE 'NY%';
+
+SELECT AVG(learn_cpp) AS cpp_avg,
+       AVG(learn_sql) AS sql_avg,
+       AVG(learn_html) AS html_avg,
+       AVG(learn_javascript) AS js_avg,
+       AVG(learn_java) AS java_avg
+FROM users
+JOIN progress USING(user_id)
+WHERE postal LIKE 'Chicago%';
